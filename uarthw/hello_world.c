@@ -19,11 +19,22 @@
 #include "sys/alt_timestamp.h"
 #include "altera_avalon_pio_regs.h"
 #include "sys/alt_irq.h"
+#define PROJECT1
 
+
+#ifdef PROJECT1
 
 int main()
 {
-  printf("Hello im abdus");
+  int *uart_ba = (int *) UART_0_BASE;
+  int rxdataoffs = 0;
+  int txdataoffs = 1;
+  int statusoffs = 2;
+  int ctrloffs = 3;
+  int divisoroffs = 4;
+
 
   return 0;
 }
+
+#endif
