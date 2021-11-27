@@ -23,7 +23,7 @@
 
 int main()
 {
-  printf("Hello im abda");
+  printf("Hello im abdus");
 
   return 0;
 }
