@@ -15,6 +15,11 @@
  */
 
 #include <stdio.h>
+#include "system.h"
+#include "sys/alt_timestamp.h"
+#include "altera_avalon_pio_regs.h"
+#include "sys/alt_irq.h"
+
 
 int main()
 {
