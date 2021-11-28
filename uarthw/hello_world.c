@@ -89,6 +89,7 @@ int main()
 	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
 	 printf("value = %d\n", *(uart_ba + divisoroffs));
 
+	 	 //sending 1 char
 
 		 printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
 		 *( uart_ba + txdataoffs ) = (int)str; //writing the register
@@ -111,6 +112,7 @@ int main()
 	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
 	 printf("value = %d\n", *(uart_ba + divisoroffs));
 
+	 	 //sending 2 char
 
 		 printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
 		 *( uart_ba + txdataoffs ) = (int)str[0]; //writing the register
@@ -134,6 +136,7 @@ int main()
 	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
 	 printf("value = %d\n", *(uart_ba + divisoroffs));
 
+	 //sending three char
 
 		 printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
 		 *( uart_ba + txdataoffs ) = (int)str[0]; //writing the register
@@ -165,7 +168,7 @@ int main()
 
 	 for(i=0;str[i]!='\0';i++)
 	 {
-		 while(((*( uart_ba + statusoffs))>>6 && 0x01)!=0);
+		 while(((*( uart_ba + statusoffs))>>6 && 0x01)!=0); //checking that TRDY if it is empty
 		 *( uart_ba + txdataoffs ) = (int)str[i];
 	 }
 
@@ -177,7 +180,7 @@ int main()
 #endif PROJECT4
 
 
-#ifdef PROJECT5
+#ifdef PROJECT51
 int main()
 {
 	//disable interrupts
@@ -186,10 +189,9 @@ int main()
 
 	while(1)
 	{
-	while(((*( uart_ba + statusoffs))>>7 && 0x01)!=0);
-	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs):
+	while(((*( uart_ba + statusoffs))>>7 && 0x01)!=0); //i am checking RRDY until data is available
+	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs); //printing character
 	}
-
 	return 0;
 }
 
@@ -197,4 +199,30 @@ int main()
 
 
 
-#endif PROJECT5
+#endif PROJECT51
+
+
+
+#ifdef PROJECT52
+int main()
+{
+	//removed polling to see what will happen
+
+	//disable interrupts
+	*( uart_ba + ctrloffs) = 0x0;
+	//polling
+
+	while(1)
+	{
+	printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
+	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs); //printing character
+	printf("value = %d\n", *(uart_ba + statusoffs));
+	}
+	return 0;
+}
+
+
+
+
+
+#endif PROJECT52
