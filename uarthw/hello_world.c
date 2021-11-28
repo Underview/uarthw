@@ -33,7 +33,21 @@ int main()
   int ctrloffs = 3;
   int divisoroffs = 4;
 
+  printf("Base address: 0x%08x (%d)\n", (int) uart_ba,(int) uart_ba);
+  printf("RXDATA address = 0x%08x (%d) - ", (int) (uart_ba+rxdataoffs), (int)(uart_ba+rxdataoffs));
+  printf("value = %d\n", *(uart_ba + rxdataoffs));
 
+  printf("TXDATA address = 0x%08x (%d) - ", (int) (uart_ba+txdataoffs), (int)(uart_ba+txdataoffs));
+  printf("value = %d\n", *(uart_ba + txdataoffs));
+
+  printf("STATUS address = 0x%08x (%d) - ", (int) (uart_ba+statusoffs), (int)(uart_ba+statusoffs));
+  printf("value = %d\n", *(uart_ba + statusoffs));
+
+  printf("CONTROLL address = 0x%08x (%d) - ", (int) (uart_ba+ctrloffs), (int)(uart_ba+ctrloffs));
+  printf("value = %d\n", *(uart_ba + ctrloffs));
+
+  printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
+  printf("value = %d\n", *(uart_ba + divisoroffs));
   return 0;
 }
 
