@@ -139,9 +139,62 @@ int main()
 		 *( uart_ba + txdataoffs ) = (int)str[0]; //writing the register
 		 *( uart_ba + txdataoffs ) = (int)str[1];
 		 *( uart_ba + txdataoffs ) = (int)str[2];
+		 //check tmt=1, if  true shift register is empty
+		 //tmt = (*( uart_ba + statusoffs)
 		 printf("value = %d\n", *(uart_ba + statusoffs));
 
 
-
+		 return 0;
 
 }
+#endif
+
+
+#ifdef PROJECT4
+
+int main()
+{
+	char str[i] ="My name is Abda"; //modify this parameter to send one-two-three characters
+	int i;
+	//with a baudrate of 115200 we obtain 433
+	//with a baudrate of 2400 we obtain 20832(0x00005160)
+	*( uart_ba + divisoroffs) = 0x00005160;
+	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
+	 printf("value = %d\n", *(uart_ba + divisoroffs));
+
+
+	 for(i=0;str[i]!='\0';i++)
+	 {
+		 while(((*( uart_ba + statusoffs))>>6 && 0x01)!=0);
+		 *( uart_ba + txdataoffs ) = (int)str[i];
+	 }
+
+	 return 0;
+
+	// ((*( uart_ba + statusoffs))>>6 && 0x01);
+}
+
+#endif PROJECT4
+
+
+#ifdef PROJECT5
+int main()
+{
+	//disable interrupts
+	*( uart_ba + ctrloffs) = 0x0;
+	//polling
+
+	while(1)
+	{
+	while(((*( uart_ba + statusoffs))>>7 && 0x01)!=0);
+	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs):
+	}
+
+	return 0;
+}
+
+
+
+
+
+#endif PROJECT5
