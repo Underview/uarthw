@@ -32,7 +32,7 @@
 
 
 
-#define PROJECT1
+#define PROJECT3
 
 
 #ifdef PROJECT1
@@ -67,7 +67,7 @@ int main()
 {
 	//with a baudrate of 115200 we obtain 433
 	//with a baudrate of 2400 we obtain 20832(0x00005160)
-	*( uart_ba + divisoroffs) = 0x00005160;
+	*( uart_ba + divisoroffs) = 0x5160;
 	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
 	 printf("value = %d\n", *(uart_ba + divisoroffs));
 
