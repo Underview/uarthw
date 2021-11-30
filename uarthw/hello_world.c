@@ -32,7 +32,7 @@
 
 
 
-#define PROJECT3
+#define PROJECT52
 
 
 #ifdef PROJECT1
@@ -82,7 +82,7 @@ int main()
 int main()
 {
 	char str ='c'; //modify this parameter to send one-two-three characters
-	int i;
+
 	//with a baudrate of 115200 we obtain 433
 	//with a baudrate of 2400 we obtain 20832(0x00005160)
 	*( uart_ba + divisoroffs) = 0x00005160;
@@ -104,8 +104,8 @@ int main()
 #ifdef PROJECT32
 int main()
 {
-	char str[i] ="ci"; //modify this parameter to send one-two-three characters
-	int i;
+	char str[] ="ci"; //modify this parameter to send one-two-three characters
+
 	//with a baudrate of 115200 we obtain 433
 	//with a baudrate of 2400 we obtain 20832(0x00005160)
 	*( uart_ba + divisoroffs) = 0x00005160;
@@ -125,11 +125,11 @@ int main()
 }
 #endif
 
-#ifdef PROJECT32
+#ifdef PROJECT33
 int main()
 {
-	char str[i] ="cia"; //modify this parameter to send one-two-three characters
-	int i;
+	char str[] ="cia"; //modify this parameter to send one-two-three characters
+
 	//with a baudrate of 115200 we obtain 433
 	//with a baudrate of 2400 we obtain 20832(0x00005160)
 	*( uart_ba + divisoroffs) = 0x00005160;
@@ -157,56 +157,38 @@ int main()
 
 int main()
 {
-	char str[i] ="My name is Abda"; //modify this parameter to send one-two-three characters
+	char str[] ="use one & instead of &&";
 	int i;
+	int reg;
+	int bit;
 	//with a baudrate of 115200 we obtain 433
 	//with a baudrate of 2400 we obtain 20832(0x00005160)
-	*( uart_ba + divisoroffs) = 0x00005160;
+	*( uart_ba + divisoroffs) = 0x5160;
 	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
 	 printf("value = %d\n", *(uart_ba + divisoroffs));
-
-
 	 for(i=0;str[i]!='\0';i++)
 	 {
-		 while(((*( uart_ba + statusoffs))>>6 && 0x01)!=0); //checking that TRDY if it is empty
+		 while(((*( uart_ba + statusoffs))>>6 & 0x01)!=1);
+
+
 		 *( uart_ba + txdataoffs ) = (int)str[i];
 	 }
 
 	 return 0;
 
-	// ((*( uart_ba + statusoffs))>>6 && 0x01);
+	// ((*( uart_ba + statusoffs))>>6 & 0x01);
 }
 
-#endif PROJECT4
+#endif
 
 
 #ifdef PROJECT51
 int main()
 {
-	//disable interrupts
-	*( uart_ba + ctrloffs) = 0x0;
-	//polling
+	*( uart_ba + divisoroffs) = 0x5160;
+	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
+	 printf("value = %d\n", *(uart_ba + divisoroffs));
 
-	while(1)
-	{
-	while(((*( uart_ba + statusoffs))>>7 && 0x01)!=0); //i am checking RRDY until data is available
-	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs); //printing character
-	}
-	return 0;
-}
-
-
-
-
-
-#endif PROJECT51
-
-
-
-#ifdef PROJECT52
-int main()
-{
-	//removed polling to see what will happen
 
 	//disable interrupts
 	*( uart_ba + ctrloffs) = 0x0;
@@ -215,8 +197,12 @@ int main()
 	while(1)
 	{
 	printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
-	fprintf(stdout,"%c",(char)*(uart_ba + txdataoffs); //printing character
-	printf("value = %d\n", *(uart_ba + statusoffs));
+	while(((*( uart_ba + statusoffs))>>7 & 0x01)==0); //i am checking RRDY until data is available
+	printf("value = %d\n", *(uart_ba + statusoffs));//after transmission
+	IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0x01);
+
+	fprintf(stdout,"%c ",(char)*(uart_ba + rxdataoffs)); //printing character
+	IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0x00);
 	}
 	return 0;
 }
@@ -225,4 +211,40 @@ int main()
 
 
 
-#endif PROJECT52
+#endif
+
+
+
+#ifdef PROJECT52
+int main()
+{
+
+	*( uart_ba + divisoroffs) = 0x5160;
+	 printf("DIVISOR address = 0x%08x (%d) - ", (int) (uart_ba+divisoroffs), (int)(uart_ba+divisoroffs));
+	 printf("value = %d\n", *(uart_ba + divisoroffs));
+	 char c;
+	//removed polling to see what will happen
+
+	//disable interrupts
+	*( uart_ba + ctrloffs) = 0x0;
+	//polling
+	printf("value = %d\n", *(uart_ba + statusoffs));//before transmission
+	while(1)
+	{
+
+
+			fprintf(stdout,"\n %c \n",(char)*(uart_ba + rxdataoffs));
+			if (((*( uart_ba + statusoffs))>>7 & 0x01)==0){
+							printf("value = %d\n", *(uart_ba + statusoffs));
+							IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0x01);
+						}
+			IOWR_ALTERA_AVALON_PIO_DATA(NIOS_HEADER_CONN_BASE, 0x00);
+	}
+	return 0;
+}
+
+
+
+
+
+#endif
